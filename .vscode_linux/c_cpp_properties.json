@@ -1,0 +1,56 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "/opt/arduino-1.8.13/tools/**",
+                "/home/cyberneticist/Arduino/libraries/**",
+                "/opt/arduino-1.8.13/libraries/**",
+                "/opt/arduino-1.8.13/hardware/tools/**",
+                "/opt/arduino-1.8.13/hardware/arduino/avr/**",
+                "/opt/arduino-1.8.13/hardware/arduino/avr/cores/arduino/",
+                "/opt/arduino-1.8.13/hardware/arduino/avr/libraries/EEPROM/",
+                "/opt/arduino-1.8.13/hardware/arduino/avr/libraries/HID/",
+                "/opt/arduino-1.8.13/hardware/arduino/avr/libraries/SPI/",
+                "/opt/arduino-1.8.13/hardware/arduino/avr/libraries/SoftwareSerial/",
+                "/opt/arduino-1.8.13/hardware/arduino/avr/libraries/Wire/",
+                "/opt/arduino-1.8.13/hardware/tools/avr/avr/include/",
+                "/opt/arduino-1.8.13/hardware/tools/avr/avr/include/avr/",
+                "/opt/arduino-1.8.13/hardware/tools/avr/avr/include/compat/",
+                "/opt/arduino-1.8.13/hardware/tools/avr/avr/include/util/",
+                "/opt/arduino-1.8.13/libraries/Bridge/src/",
+                "/opt/arduino-1.8.13/libraries/Esplora/src/",
+                "/opt/arduino-1.8.13/libraries/Ethernet/src/",
+                "/opt/arduino-1.8.13/libraries/GSM/src/",
+                "/opt/arduino-1.8.13/libraries/LiquidCrystal/src/",
+                "/opt/arduino-1.8.13/libraries/Robot_Control/src/",
+                "/opt/arduino-1.8.13/libraries/RobotIRremote/src/",
+                "/opt/arduino-1.8.13/libraries/Robot_Motor/src/",
+                "/opt/arduino-1.8.13/libraries/SD/src/",
+                "/opt/arduino-1.8.13/libraries/Servo/src/",
+                "/opt/arduino-1.8.13/libraries/SpacebrewYun/src/",
+                "/opt/arduino-1.8.13/libraries/Stepper/src/",
+                "/opt/arduino-1.8.13/libraries/Temboo/src/",
+                "/opt/arduino-1.8.13/libraries/TFT/src/",
+                "/opt/arduino-1.8.13/libraries/WiFi/src/",
+                "/opt/arduino-1.8.13/hardware/tools/avr/lib/gcc/avr/7.3.0/include/",
+                "/opt/arduino-1.8.13/hardware/tools/avr/lib/gcc/avr/7.3.0/include-fixed/"
+            ],
+            "browse": {
+                "limitSymbolsToIncludedHeaders": true,
+                "databaseFilename": ""
+            },
+            "defines": [
+                "USBCON"
+            ],
+            "compilerPath": "/usr/bin/clang",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "clang-x64",
+            "forcedInclude": [
+                "/opt/arduino-1.8.13/hardware/arduino/avr/cores/arduino/Arduino.h"
+            ]
+        }
+    ],
+    "version": 4
+}

@@ -1,0 +1,7 @@
+{
+    "sketch": "ledcube.ino",
+    "board": "arduino:avr:nano",
+    "configuration": "cpu=atmega328old",
+    "programmer": "AVRISP mkII",
+    "port": "/dev/ttyUSB0"
+}

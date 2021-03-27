@@ -1,0 +1,13 @@
+#ifndef DEVICE_SETUP
+#define DEVICE_SETUP
+
+#define FAN_POWER_PIN 9
+#define FAN_POWER_RESOLUTION 8
+#define FAN_POWER_SCALE 10.0f
+#define FAN_POWER_MIN 30.0f
+#define FAN_POWER_MAX 90.0f
+
+#define FAN_POWER_UP_PIN 3
+#define FAN_POWER_DOWN_PIN 2
+
+#endif

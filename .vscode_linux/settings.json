@@ -1,0 +1,20 @@
+{
+  "arduino.path": "/opt/arduino-1.8.13",
+  "arduino.commandPath": "arduino",
+  "files.associations": {
+    "istream": "cpp",
+    "cstddef": "cpp",
+    "__hash_table": "cpp",
+    "__split_buffer": "cpp",
+    "array": "cpp",
+    "bitset": "cpp",
+    "initializer_list": "cpp",
+    "iterator": "cpp",
+    "string": "cpp",
+    "string_view": "cpp",
+    "unordered_map": "cpp",
+    "utility": "cpp",
+    "vector": "cpp",
+    "*.ino": "cpp"
+  }
+}
