@@ -14,12 +14,14 @@ class Device {
     Button powerUpBtn;
     PowerController powerCtrl;
 
-    float minPowerLevel;
-    float maxPowerLevel;
-    float powerLevelScale;
+    int minPowerLevel;
+    int maxPowerLevel;
+    int powerLevelScale;
 
     Device();
     void onLoop();
+    void onPowerUpPressed();
+    void onPowerDownPressed();
   public:
     static void setup();
     static void loop();

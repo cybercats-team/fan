@@ -5,18 +5,21 @@
 
 #include "../lib/GyverPWM.h"
 
+enum class PowerState {
+  Off,
+  On,
+  Pwm
+};
+
 class PowerController {
   private:
     int pwmPin;
     int maxDutyLevel;
+    int dutyLevel;
+    PowerState powerState;
 
-    bool enabled;
-    bool pwmEnabled;
-    float pwmDuty;
-
-    void togglePowerMode(bool enabled);
-    void togglePwmMode(bool powered);
-
+    void togglePowerMode(bool onOff);
+    void togglePwm(bool enabled);
   public:
     PowerController(int pin, int pwmResolution);
 
@@ -24,14 +27,15 @@ class PowerController {
 
     void powerOn();
     void powerOff();
-    void enablePwm();
-    void disablePwm();
-    void setPwmDuty(float duty);
-    void changePwmDuty(float changeBy);
+    void setPwmDuty(int duty);
+    void changePwmDuty(int changeBy);
 
-    const bool isEnabled() const;
-    const bool isPwmEnabled() const;
-    const float getPwmDuty() const;
+    const PowerState getPowerState() const;
+    const int getPwmDuty() const;
+
+    inline int calculateLevel(int percents) {
+      return round(((float) maxDutyLevel) * ((float) percents) / 100.0f);
+    }
 };
 
 #endif

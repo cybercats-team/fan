@@ -22,45 +22,60 @@ Device::Device() :
   powerDownBtn(FAN_POWER_DOWN_PIN),
   powerUpBtn(FAN_POWER_UP_PIN),
   powerCtrl(FAN_POWER_PIN, FAN_POWER_RESOLUTION),
-  minPowerLevel(FAN_POWER_MIN),
-  maxPowerLevel(FAN_POWER_MAX),
-  powerLevelScale(FAN_POWER_SCALE)
+  minPowerLevel(powerCtrl.calculateLevel(FAN_POWER_MIN)),
+  maxPowerLevel(powerCtrl.calculateLevel(FAN_POWER_MAX)),
+  powerLevelScale(powerCtrl.calculateLevel(FAN_POWER_SCALE))
 {
   powerCtrl.initialize();
 }
 
 void Device::onLoop() {
-  bool powered = powerCtrl.isEnabled();
-  float powerLevel = powerCtrl.getPwmDuty();
+  const PowerState powerState = powerCtrl.getPowerState();
+  int powerLevel = powerCtrl.getPwmDuty();
 
   if (powerUpBtn.hasPressed()) {
-    if (!powered) {
-      powerCtrl.powerOn();
+    onPowerUpPressed();
+  }
+
+  if (powerDownBtn.hasPressed()) {
+    onPowerDownPressed();
+  }
+}
+
+void Device::onPowerUpPressed() {
+  const PowerState powerState = powerCtrl.getPowerState();
+  int powerLevel = powerCtrl.getPwmDuty();
+
+  if (powerState != PowerState::Pwm) {
+    if (powerState == PowerState::Off) {
       powerCtrl.setPwmDuty(minPowerLevel);
-      return;
     }
 
-    if (powerLevel >= maxPowerLevel) {
-      powerCtrl.disablePwm();
-      return;
-    }
-
-    powerCtrl.changePwmDuty(powerLevelScale);
     return;
   }
 
-  if (!powered || !powerDownBtn.hasPressed()) {
+  if (powerLevel >= maxPowerLevel) {
+    powerCtrl.powerOn();
     return;
   }
 
-  if (powerLevel <= 0) {
+  powerCtrl.changePwmDuty(powerLevelScale);
+}
+
+void Device::onPowerDownPressed() {
+  const PowerState powerState = powerCtrl.getPowerState();
+  int powerLevel = powerCtrl.getPwmDuty();
+
+  if (powerState != PowerState::Pwm) {
+    if (powerState == PowerState::On) {
+      powerCtrl.setPwmDuty(maxPowerLevel);
+    }
+
+    return;
+  }
+
+  if (powerLevel <= minPowerLevel) {
     powerCtrl.powerOff();
-    return;
-  }
-
-  if (!powerCtrl.isPwmEnabled()) {
-    powerCtrl.enablePwm();
-    powerCtrl.setPwmDuty(maxPowerLevel);
     return;
   }
 

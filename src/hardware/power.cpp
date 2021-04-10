@@ -2,104 +2,100 @@
 
 PowerController::PowerController(int pin, int pwmResolution) :
   pwmPin(pin),
-  maxDutyLevel((1 << pwmResolution) - 1),
-  enabled(false),
-  pwmEnabled(false),
-  pwmDuty(0)
+  dutyLevel(0),
+  powerState(PowerState::Off),
+  maxDutyLevel((1 << pwmResolution) - 1)
 {
   pinMode(pwmPin, OUTPUT);
   PWM_resolution(pwmPin, pwmResolution, CORRECT_PWM);
-  Serial.begin(9600);
 }
 
 void PowerController::initialize() {
-  togglePwmMode(false);
+  togglePwm(false);
   togglePowerMode(false);
 }
 
-const bool PowerController::isEnabled() const {
-  return enabled;
+const PowerState PowerController::getPowerState() const {
+  return powerState;
 }
 
-const bool PowerController::isPwmEnabled() const {
-  return pwmEnabled;
-}
-
-const float PowerController::getPwmDuty() const {
-  return pwmDuty;
+const int PowerController::getPwmDuty() const {
+  return dutyLevel;
 }
 
 void PowerController::powerOn() {
-  if (enabled) {
+  if (powerState == PowerState::On) {
     return;
   }
 
-  enabled = true;
-  enablePwm();
+  if (powerState == PowerState::Pwm) {
+    togglePwm(false);
+  }
+
+  togglePowerMode(true);
+  powerState = PowerState::On;
 }
 
 void PowerController::powerOff() {
-  if (!enabled) {
+  if (powerState == PowerState::Off) {
     return;
   }
 
-  disablePwm();
+  if (powerState == PowerState::Pwm) {
+    togglePwm(false);
+  }
+
   togglePowerMode(false);
-  enabled = false;
+  powerState = PowerState::Off;
 }
 
-void PowerController::enablePwm() {
-  if (!enabled || pwmEnabled) {
+void PowerController::setPwmDuty(int duty) {
+  bool pwmEnabled = powerState == PowerState::Pwm;
+
+  if (pwmEnabled && (duty == dutyLevel)) {
     return;
   }
 
-  togglePwmMode(true);
-  pwmEnabled = true;
-}
-
-void PowerController::disablePwm() {
   if (!pwmEnabled) {
-    return;
+    if (powerState == PowerState::On) {
+      togglePowerMode(false);
+    }
+
+    togglePwm(true);
+    powerState = PowerState::Pwm;
   }
 
-  togglePwmMode(false);
-  togglePowerMode(true);
-  pwmEnabled = false;
+  int newDuty = duty;
+
+  if (newDuty < 0) {
+    newDuty = 0;
+  } else if (newDuty > maxDutyLevel) {
+    newDuty = maxDutyLevel;
+  }
+
+  if (newDuty != duty) {
+    PWM_set(pwmPin, dutyLevel);
+  }
 }
 
-void PowerController::setPwmDuty(float duty) {
-  if (duty == pwmDuty) {
+void PowerController::changePwmDuty(int changeBy) {
+  if (changeBy == 0) {
     return;
   }
 
-  pwmDuty = duty;
-
-  if (pwmDuty < 0.0f) {
-    pwmDuty = 0.0f;
-  } else if (pwmDuty > 100.0f) {
-    pwmDuty = 100.0f;
-  }
-
-  PWM_set(pwmPin, round(((float) maxDutyLevel) * duty / 100.0f));
-}
-
-void PowerController::changePwmDuty(float changeBy) {
-  if (changeBy == 0.0f) {
-    return;
-  }
-
-  setPwmDuty(pwmDuty + changeBy);
+  setPwmDuty(dutyLevel + changeBy);
 }
 
 void PowerController::togglePowerMode(bool powered) {
   digitalWrite(pwmPin, powered ? HIGH : LOW);
 }
 
-void PowerController::togglePwmMode(bool enabled) {
+void PowerController::togglePwm(bool enabled) {
   if (enabled) {
     PWM_attach(pwmPin);
     return;
   }
 
+  dutyLevel = 0;
   PWM_detach(pwmPin);
 }
