@@ -3,7 +3,7 @@
 
 #define FAN_POWER_PIN 9
 #define FAN_POWER_RESOLUTION 8
-#define FAN_POWER_SCALE 10
+#define FAN_POWER_SCALE 15
 #define FAN_POWER_MIN 30
 #define FAN_POWER_MAX 90
 

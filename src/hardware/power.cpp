@@ -8,6 +8,7 @@ PowerController::PowerController(int pin, int pwmResolution) :
 {
   pinMode(pwmPin, OUTPUT);
   PWM_resolution(pwmPin, pwmResolution, CORRECT_PWM);
+  Serial.begin(9600);
 }
 
 void PowerController::initialize() {
@@ -73,7 +74,11 @@ void PowerController::setPwmDuty(int duty) {
     newDuty = maxDutyLevel;
   }
 
-  if (newDuty != duty) {
+  if (newDuty != dutyLevel) {
+    Serial.print("PWM duty: ");
+    Serial.println(newDuty);
+
+    dutyLevel = newDuty;
     PWM_set(pwmPin, dutyLevel);
   }
 }
@@ -87,10 +92,16 @@ void PowerController::changePwmDuty(int changeBy) {
 }
 
 void PowerController::togglePowerMode(bool powered) {
+  Serial.print("Toggle power: ");
+  Serial.println(powered);
+
   digitalWrite(pwmPin, powered ? HIGH : LOW);
 }
 
 void PowerController::togglePwm(bool enabled) {
+  Serial.print("Toggle PWM: ");
+  Serial.println(enabled);
+
   if (enabled) {
     PWM_attach(pwmPin);
     return;
