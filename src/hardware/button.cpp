@@ -1,18 +1,31 @@
 #include "button.h"
 
-Button::Button(int inputPin) :
+Button::Button(int inputPin, unsigned int pulseWidth) :
   inputPin(inputPin),
-  bufferState(false)
+  bufferState(false),
+  lastPress(0),
+  buttonState(LOW),
+  pulseWidth(pulseWidth)
 {
   pinMode(inputPin, INPUT);
-  buttonState = digitalRead(inputPin);
 }
 
 bool Button::hasPressed() {
   int reading = digitalRead(inputPin);
 
   if (reading != buttonState) {
-    bufferState = (buttonState == HIGH) && (reading == LOW);
+    if ((reading == HIGH) && (lastPress == 0)) {
+      lastPress = millis();
+    }
+
+    if (reading == LOW) {
+      if ((millis() - lastPress) >= pulseWidth) {
+        bufferState = true;
+      }
+
+      lastPress = 0;
+    }
+
     buttonState = reading;
   }
 
@@ -23,4 +36,4 @@ bool Button::hasPressed() {
   }
 
   return pressed;
-};
+}

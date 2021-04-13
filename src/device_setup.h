@@ -7,6 +7,7 @@
 #define FAN_POWER_MIN 30
 #define FAN_POWER_MAX 90
 
+#define FAN_POWER_BTN_PULSE_WIDTH 20
 #define FAN_POWER_UP_PIN 3
 #define FAN_POWER_DOWN_PIN 2
 

@@ -19,8 +19,8 @@ void Device::loop() {
 }
 
 Device::Device() :
-  powerDownBtn(FAN_POWER_DOWN_PIN),
-  powerUpBtn(FAN_POWER_UP_PIN),
+  powerDownBtn(FAN_POWER_DOWN_PIN, FAN_POWER_BTN_PULSE_WIDTH),
+  powerUpBtn(FAN_POWER_UP_PIN, FAN_POWER_BTN_PULSE_WIDTH),
   powerCtrl(FAN_POWER_PIN, FAN_POWER_RESOLUTION),
   minPowerLevel(powerCtrl.calculateLevel(FAN_POWER_MIN)),
   maxPowerLevel(powerCtrl.calculateLevel(FAN_POWER_MAX)),

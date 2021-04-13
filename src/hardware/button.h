@@ -7,9 +7,11 @@ class Button {
   private:
     int inputPin;
     int buttonState;
+    unsigned long lastPress;
+    unsigned int pulseWidth;
     bool bufferState;
   public:
-    Button(int inputPin);
+    Button(int inputPin, unsigned int pulseWidth);
     bool hasPressed();
 };
 
