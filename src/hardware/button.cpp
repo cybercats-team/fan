@@ -2,10 +2,10 @@
 
 Button::Button(int inputPin, unsigned int pulseWidth) :
   inputPin(inputPin),
-  bufferState(false),
-  lastPress(0),
-  buttonState(LOW),
-  pulseWidth(pulseWidth)
+  buttonState(digitalRead(inputPin)),
+  lastPress(buttonState == HIGH ? millis() : 0),
+  pulseWidth(pulseWidth),
+  bufferState(false)
 {
   pinMode(inputPin, INPUT);
 }
